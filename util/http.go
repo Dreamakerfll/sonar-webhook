@@ -77,7 +77,7 @@ func HttpRequest(request *http.Request, returnData interface{}) (string, error) 
 	tr := &http.Transport{
         	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
     	}
-	client := &http.DefaultClient{Transport: tr}
+	client := &http.Client{Transport: tr}
 	resp, err := client.Do(request)
 	if err != nil {
 		return "", err
