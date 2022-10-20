@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"crypto/tls"
 )
 
 func HttpPostJson(url string, data interface{}) (string, error) {
@@ -73,7 +74,11 @@ func HttpGetJson(url string, returnData interface{}) (string, error) {
 }
 
 func HttpRequest(request *http.Request, returnData interface{}) (string, error) {
-	resp, err := http.DefaultClient.Do(request)
+	tr := &http.Transport{
+        	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+    	}
+	client := &http.DefaultClient{Transport: tr}
+	resp, err := client.Do(request)
 	if err != nil {
 		return "", err
 	}
